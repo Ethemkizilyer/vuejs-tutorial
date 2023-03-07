@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VueJS Giriş</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <style>
+    .selected{
+      color: red;
+    }
+  </style>
+  <body>
+    <div class="firstApp">Merhaba {{message}} {{asd}}</div>
+    <div class="firstApp1">Merhaba {{message}} {{asd}}</div>
+
+    <script>
+      const { createApp } = Vue;
+      const all = document.querySelector(".firstApp");
+      createApp({
+        data() {
+          return {
+            message: "Vue!",
+            asd: "ethem",
+          };
+        },
+      }).mount(all);
+
+      const app = Vue.createApp({
+        template: `
+        <h2>SELAM SANA ABE SEZAR {{baslik}} {{icerik}} {{yorumSayisi}}</h2>
+        <button v-on:click="ekle()">EKLE</button>
+        <button v-on:click="cikar()">ÇIKAR</button>
+        <span>{{yazi}}</span>
+        <div v-if="!showInfo">Deneme Yazısı</div>
+        <div v-else>Deneme Yazısı 2</div>
+        <div v-if="!showInfo">Deneme Yazısı 2</div>
+        /* <button style="width:5rem;padding:0.5rem 1rem;border-radius:10px" v-on:click="bakar()">{{showInfo ? "Aç" : "Kapa"}}</button>*/
+        <button style="width:5rem;padding:0.5rem 1rem;border-radius:10px" @click="bakar">{{showInfo ? "Aç" : "Kapa"}}</button>
+        <ul>
+        <li v-for="gun in gunler">{{gun}}</li>
+        </ul>
+        <div v-bind:style="style">BURAYA BAKARLAR</div>
+        <div :style="style">BURAYA BAKARLAR</div>
+        <h2>Frameworkler</h2>
+        <ul>
+        <li v-for="f in frameworks" class="list" :class="{selected:f.selected}" @click="()=>naptin(f)">{{f.name}}</li>
+        </ul>
+        <h2>Frameworkler</h2>
+        <ul>
+        <li v-for="f in frameworks" class="list" :class="{selected:f.selected}" @click="()=>naptinki(f)">{{f.name}}</li>
+        </ul>
+        <h2>Seçilen</h2>
+        <ul>
+        <li v-for="f in selectTags" >{{f.name}}</li>
+        </ul>
+        `,
+        data() {
+          return {
+            baslik: "VueDersi",
+            icerik: "Vue3 Konuları",
+            yorumSayisi: 0,
+            yazi:"Yorum eklemek için tıklayın",
+            showInfo:true,
+            gunler:["pazartesi","salı","çarşamba","perşembe","cuma"],
+            style:"color:green",
+            frameworks:[
+              {name:"Vue",selected:true},
+              {name:"React",selected:false},
+              {name:"Svelte",selected:false},
+              {name:"Angular",selected:false}
+            ]
+          };
+        },
+        methods: {
+          naptin(f){
+            console.log(f.name);
+           for(let i=0;i<this.frameworks.length;i++) {
+           this.frameworks[i].selected =this.frameworks[i].name == f.name ?  !this.frameworks[i].selected: this.frameworks[i].selected=false
+       
+          }
+          },
+          naptinki(f){
+           f.selected=!f.selected
+       
+          }
+          ,
+          ekle() {
+            this.yorumSayisi++;
+            
+              if(this.yorumSayisi > 10 ){
+              this.yorumSayisi=10
+              console.log("daha fazla yükselme");
+              return true
+            }
+            this.yazi=`${this.yorumSayisi} tane yorum girildi`
+          },
+          cikar(){
+            this.yorumSayisi--;
+            
+            if(this.yorumSayisi < 0 ){
+              this.yorumSayisi=0
+              console.log("daha fazla düşme");
+              return true
+            }
+            this.yazi=`${this.yorumSayisi} tane yorum girildi`
+          },
+          bakar(){
+            this.showInfo=!this.showInfo
+          },
+        
+        },
+        computed:{
+          selectTags(){
+            console.log("değişiklik oldu");
+            return selecteds=this.frameworks.filter(i=>i.selected)
+          }
+        }
+      });
+
+      app.mount(".firstApp1");
+    </script>
+  </body>
+</html>
