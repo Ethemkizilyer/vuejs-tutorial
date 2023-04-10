@@ -12,7 +12,10 @@ export default {
 </style> -->
 <template>
 <ul>
-    <li v-for="todo in todos" :key="todo.id" @click="()=>change(todo.id)">{{ todo.todom }} </li>
+    <li v-for="todo in todos" :key="todo.id" >{{ todo.todom }} 
+    <button @click="()=>change(todo.id)">{{ todo.done }}</button>
+    <button @click="()=>deletem(todo.id)">Sil</button>
+</li>
 </ul>
 </template>
 <script>
@@ -26,11 +29,14 @@ setup() {
     const change =(id)=>{
 store.dispatch("changeAction",id)
     }
+    const deletem =(id)=>{
+store.dispatch("deleteAction",id)
+    }
     const todos= computed(()=>{
         return store.state.todos
     })
     console.log(todos)
-    return {todos,change}
+    return {todos,change,deletem}
 }
 }
 </script>

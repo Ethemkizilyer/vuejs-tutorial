@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
@@ -27,20 +27,24 @@ export default createStore({
       };
       state.todos.push(tod);
     },
-    changeDone(state,  id ) {
-      state.todos = state.todos.map(
-        (x) => x.id == id ? { ...x, done: !x.done } : x
+    changeDone(state, id) {
+      state.todos = state.todos.map((x) =>
+        x.id == id ? { ...x, done: !x.done } : x
       );
+    },
+    deletex(state, id) {
+      state.todos = state.todos.filter((x) => x.id !== id);
     },
   },
   actions: {
     addTodoaction(context, newTodo) {
-      console.log(context);
       context.commit("addTodo", newTodo);
     },
     changeAction(context, id) {
-      console.log(context);
       context.commit("changeDone", id);
+    },
+    deleteAction(context, id) {
+      context.commit("deletex", id);
     },
   },
   modules: {},
